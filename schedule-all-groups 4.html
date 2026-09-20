@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>2nd Year Weekly Schedules – All Groups</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f2fb;
+    --card-bg: #ffffff;
+    --text: #232134;
+    --text-soft: #6b6884;
+    --border: #e7e3f6;
+    --grad-1: #7c5cff;
+    --grad-2: #b06ab3;
+
+    --c-pharma: #ff7a59;      --c-pharma-2: #ffb199;
+    --c-conservative: #21b3a4; --c-conservative-2: #7fe0d4;
+    --c-removable: #3f8cf2;   --c-removable-2: #9cc6ff;
+    --c-fixed: #f5ab19;       --c-fixed-2: #ffd479;
+    --c-pathology: #9b4fe0;   --c-pathology-2: #d1a4ff;
+    --c-microbio: #1fb27a;    --c-microbio-2: #7fe6bd;
+    --c-histology: #ef4f83;  --c-histology-2: #ff9dbf;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16141f; --card-bg: #211e2c; --text: #f1eefb; --text-soft: #b2acc8; --border: #322e42;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16141f; --card-bg: #211e2c; --text: #f1eefb; --text-soft: #b2acc8; --border: #322e42;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    height: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Poppins', 'DejaVu Sans', sans-serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .page { max-width: 1300px; margin: 0 auto; padding: 20px; }
+
+  .hero {
+    background: linear-gradient(115deg, var(--grad-1), var(--grad-2));
+    border-radius: 20px;
+    padding: 20px 26px;
+    color: white;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 26px rgba(124, 92, 255, 0.25);
+  }
+  .hero h1 { margin: 0; font-size: 22px; font-weight: 900; }
+  .hero p { margin: 4px 0 0; opacity: 0.92; font-size: 13px; }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--bg);
+    padding: 8px 0;
+  }
+  .tab-btn {
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-soft);
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .tab-btn:hover { border-color: var(--grad-1); color: var(--text); }
+  .tab-btn.active {
+    background: linear-gradient(115deg, var(--grad-1), var(--grad-2));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(124,92,255,0.35);
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .legend span {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11.5px; color: var(--text-soft);
+    background: var(--card-bg); border: 1px solid var(--border);
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 96px repeat(5, 1fr);
+    gap: 8px;
+    overflow-x: auto;
+  }
+
+  .head-cell {
+    border-radius: 14px;
+    padding: 10px 6px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+  .head-cell.corner { background: transparent; border: none; }
+
+  .time-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text-soft);
+    padding: 6px 4px;
+    line-height: 1.5;
+  }
+  .time-cell b { color: var(--text); font-size: 13px; }
+
+  .slot {
+    border-radius: 14px;
+    padding: 10px 10px 8px;
+    color: white;
+    position: relative;
+    min-height: 88px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+  .slot .kind {
+    position: absolute; top: 7px; right: 8px;
+    background: rgba(255,255,255,0.28);
+    font-size: 9px; font-weight: 800;
+    padding: 2px 7px; border-radius: 999px;
+    letter-spacing: 0.2px;
+  }
+  .slot .title { font-size: 13.5px; font-weight: 800; line-height: 1.28; margin-top: 8px; }
+  .slot .meta { font-size: 10.5px; opacity: 0.92; margin-top: 3px; }
+
+  .slot.pharma { background: linear-gradient(135deg, var(--c-pharma), var(--c-pharma-2)); }
+  .slot.conservative { background: linear-gradient(135deg, var(--c-conservative), var(--c-conservative-2)); }
+  .slot.removable { background: linear-gradient(135deg, var(--c-removable), var(--c-removable-2)); }
+  .slot.fixed { background: linear-gradient(135deg, var(--c-fixed), var(--c-fixed-2)); color: #3a2a00; }
+  .slot.fixed .kind { background: rgba(58,42,0,0.15); color: #3a2a00; }
+  .slot.pathology { background: linear-gradient(135deg, var(--c-pathology), var(--c-pathology-2)); }
+  .slot.microbio { background: linear-gradient(135deg, var(--c-microbio), var(--c-microbio-2)); }
+  .slot.histology { background: linear-gradient(135deg, var(--c-histology), var(--c-histology-2)); }
+
+  .slot.free {
+    background: repeating-linear-gradient(135deg, var(--card-bg), var(--card-bg) 10px, var(--bg) 10px, var(--bg) 20px);
+    border: 1.5px dashed var(--border);
+    color: var(--text-soft);
+    align-items: center;
+    text-align: center;
+    box-shadow: none;
+  }
+  .slot.free .title { font-size: 12px; font-weight: 700; margin-top: 0; }
+
+  footer {
+    text-align: center;
+    color: var(--text-soft);
+    font-size: 11px;
+    margin-top: 18px;
+    padding-bottom: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .page { padding: 14px; }
+    .grid { grid-template-columns: 62px repeat(5, minmax(120px,1fr)); }
+    .slot .title { font-size: 12px; }
+    .slot .meta { font-size: 9px; }
+    .head-cell { font-size: 13px; padding: 8px 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <h1>🦷 2nd Year Weekly Schedules</h1>
+    <p>Section B – Faculty of Dentistry, University of Tripoli · Choose your group below</p>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="legend">
+    <span><i style="background: var(--c-pharma)"></i> Pharmacology</span>
+    <span><i style="background: var(--c-conservative)"></i> Conservative Dentistry &amp; Endodontics</span>
+    <span><i style="background: var(--c-removable)"></i> Removable Prosthodontics</span>
+    <span><i style="background: var(--c-fixed)"></i> Fixed Prosthodontics</span>
+    <span><i style="background: var(--c-pathology)"></i> General Pathology</span>
+    <span><i style="background: var(--c-microbio)"></i> Microbiology</span>
+    <span><i style="background: var(--c-histology)"></i> Oral Histology</span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>Class schedule reference – University of Tripoli, Faculty of Dentistry</footer>
+</div>
+
+<script>
+// Subject metadata: css class + full name
+const SUBJ = {
+  pharma:       { name: "Pharmacology",                         code: "MS230" },
+  conservative: { name: "Conservative Dentistry &amp; Endodontics 1", code: "DS210" },
+  removable:    { name: "Removable Prosthodontics 1",           code: "DS220" },
+  fixed:        { name: "Fixed Prosthodontics 1",                code: "DS230" },
+  pathology:    { name: "General Pathology",                     code: "MS210" },
+  microbio:     { name: "Microbiology",                          code: "MS220" },
+  histology:    { name: "Oral Histology",                        code: "DS240" },
+};
+
+// Lecture row is identical for every group (12-2 daily, plus Wed/Thu 10-12)
+const LECTURES = {
+  sun:  [null, null, "pharma"],
+  mon:  [null, null, "conservative"],
+  tue:  [null, null, "removable"],
+  wed:  [null, "pathology", "fixed"],
+  thu:  [null, "microbio", "histology"],
+};
+
+// Lab rotation per group: [8-10, 10-12] subject key, or "free"
+const LABS = {
+  A1: { sun: ["histology","free"],     mon: ["fixed","pathology"],   tue: ["pharma","microbio"],    wed: ["removable",null], thu: ["conservative",null] },
+  A2: { sun: ["fixed","conservative"], mon: ["free","removable"],    tue: ["pathology","histology"],wed: ["pharma",null],    thu: ["microbio",null] },
+  B1: { sun: ["removable","fixed"],    mon: ["conservative","free"], tue: ["histology","pathology"],wed: ["microbio",null],  thu: ["pharma",null] },
+  B2: { sun: ["conservative","removable"], mon: ["microbio","fixed"],tue: ["free","pharma"],        wed: ["pathology",null], thu: ["histology",null] },
+  C1: { sun: ["pharma","pathology"],   mon: ["removable","microbio"],tue: ["conservative","free"],  wed: ["histology",null], thu: ["fixed",null] },
+  C2: { sun: ["microbio","pharma"],    mon: ["histology","conservative"], tue: ["removable","fixed"], wed: ["free",null],   thu: ["pathology",null] },
+  D1: { sun: ["pathology","microbio"], mon: ["pharma","histology"],  tue: ["fixed","removable"],    wed: ["conservative",null], thu: ["free",null] },
+  D2: { sun: ["free","histology"],     mon: ["pathology","pharma"],  tue: ["microbio","conservative"], wed: ["fixed",null], thu: ["removable",null] },
+};
+
+const DAYS = [
+  { key: "sun", label: "Sunday" },
+  { key: "mon", label: "Monday" },
+  { key: "tue", label: "Tuesday" },
+  { key: "wed", label: "Wednesday" },
+  { key: "thu", label: "Thursday" },
+];
+const TIMES = [
+  { label: "8:00", sub: "–10:00 AM" },
+  { label: "10:00", sub: "–12:00 PM" },
+  { label: "12:00", sub: "–2:00 PM" },
+];
+const GROUPS = ["A1","A2","B1","B2","C1","C2","D1","D2"];
+
+function slotHTML(kind, subjKey, room) {
+  if (subjKey === "free") {
+    return `<div class="slot free"><div class="title">☕ Free time</div></div>`;
+  }
+  if (!subjKey) return `<div class="slot free" style="visibility:hidden"></div>`;
+  const s = SUBJ[subjKey];
+  return `<div class="slot ${subjKey}">
+      <span class="kind">${kind}</span>
+      <div class="title">${s.name}</div>
+      <div class="meta">${s.code} · ${room}</div>
+    </div>`;
+}
+
+function render(group) {
+  const grid = document.getElementById('grid');
+  let html = `<div class="head-cell corner"></div>`;
+  DAYS.forEach(d => html += `<div class="head-cell">${d.label}</div>`);
+
+  for (let row = 0; row < 3; row++) {
+    html += `<div class="time-cell"><b>${TIMES[row].label}</b><span>${TIMES[row].sub}</span></div>`;
+    DAYS.forEach(d => {
+      const lec = LECTURES[d.key][row];
+      if (row < 2) {
+        const lab = LABS[group][d.key][row];
+        if (lab) {
+          const room = lab === "free" ? "" : `${SUBJ[lab].name.replace(" 1","")} Lab`;
+          html += slotHTML("LAB", lab, room);
+        } else if (lec) {
+          html += slotHTML("LECTURE", lec, "Lecture Hall 1");
+        } else {
+          html += `<div class="slot free" style="visibility:hidden"></div>`;
+        }
+      } else {
+        if (lec) {
+          html += slotHTML("LECTURE", lec, "Lecture Hall 1");
+        } else {
+          html += `<div class="slot free" style="visibility:hidden"></div>`;
+        }
+      }
+    });
+  }
+  grid.innerHTML = html;
+}
+
+function renderTabs() {
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = GROUPS.map(g =>
+    `<button class="tab-btn" data-group="${g}">${g}</button>`
+  ).join('');
+  tabs.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(btn.dataset.group);
+      try { localStorage.setItem('lastGroup', btn.dataset.group); } catch(e) {}
+    });
+  });
+}
+
+renderTabs();
+let initial = "A2";
+try {
+  const saved = localStorage.getItem('lastGroup');
+  if (saved && GROUPS.includes(saved)) initial = saved;
+} catch(e) {}
+document.querySelector(`.tab-btn[data-group="${initial}"]`).classList.add('active');
+render(initial);
+</script>
+</body>
+</html>
